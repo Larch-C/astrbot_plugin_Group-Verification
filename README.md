@@ -6,7 +6,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Platform](https://img.shields.io/badge/platform-AstrBot-purple.svg)
 
-*一个简单高效的QQ群验证工具，保护您的群聊免受广告机器人和恶意用户的侵扰*
+*一个简单高效的QQ群验证工具，保护您的群聊免受广告机器人和不良用户的侵扰*
 
 [功能简介](#✨-功能简介) •
 [安装方法](#📥-安装方法) •
@@ -122,11 +122,8 @@ QQ群成员验证插件为AstrBot提供了强大的新成员管理功能，能�
 - ✅ 基础验证功能实现
 - 🔧 可配置验证关键词和超时时间
 
-## 💻 开发者信息
 
-<img src="https://avatars.githubusercontent.com/u/huotuo146?v=4" width="100" height="100" align="right" style="border-radius:50%"/>
-
-### huotuo146
+### 插件作者:huotuo146
 
 - 🌐 [GitHub](https://github.com/huntuo146)
 - 📧 Email: [2996603469@qq.com]
