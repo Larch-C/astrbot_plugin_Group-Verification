@@ -1,9 +1,5 @@
-# helloworld
+通过@机器人回复关键词进行验证（仅测试了napcat框架）
 
-AstrBot 插件模板
+适用与QQ群聊人机审核以及相关关键词入群功能审核功能
 
-A template plugin for AstrBot plugin feature
-
-# 支持
-
-[帮助文档](https://astrbot.app)
+你可以通过修改main.py的相关设置进行修改入群关键词和退群提示
