@@ -3,7 +3,7 @@ from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 import asyncio
 
-@register("qq_member_verify", "YourName", "QQ群成员验证插件", "1.0.0", "https://your.repo.url")
+@register("qq_member_verify", "YourName", "QQ群成员验证插件", "1.0.1", "https://github.com/huntuo146/astrbot_plugin_Group-Verification")
 class QQGroupVerifyPlugin(Star):
     def __init__(self, context: Context, config):
         super().__init__(context)
