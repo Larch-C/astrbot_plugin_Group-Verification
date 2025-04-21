@@ -124,12 +124,12 @@ QQ群成员验证插件为AstrBot提供了强大的新成员管理功能，能�
 
 ## 💻 开发者信息
 
-<img src="https://avatars.githubusercontent.com/u/YOUR_ID?v=4" width="100" height="100" align="right" style="border-radius:50%"/>
+<img src="https://avatars.githubusercontent.com/u/huotuo146?v=4" width="100" height="100" align="right" style="border-radius:50%"/>
 
 ### huotuo146
 
 - 🌐 [GitHub](https://github.com/huntuo146)
-- 📧 Email: [your.email@example.com]
+- 📧 Email: [2996603469@qq.com]
 - 🔗 项目地址: [astrbot_plugin_Group-Verification](https://github.com/huntuo146/astrbot_plugin_Group-Verification)
 
 ## 📜 许可证
