@@ -1,4 +1,4 @@
-from astrbot.api.event import filter, AstrMessageEvent, EventMessageType
+from astrbot.api.event import filter, AstrMessageEvent
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 import asyncio
@@ -11,7 +11,7 @@ class QQGroupVerifyPlugin(Star):
         self.config = config
         self.pending = {}  # {user_id: group_id}
 
-    @filter.event_message_type(EventMessageType.ALL)
+    @filter.event_message_type(filter.EventMessageType.ALL)
     async def handle_event(self, event: AstrMessageEvent):
         raw = event.message_obj.raw_message
         platform = event.get_platform_name()
@@ -19,7 +19,6 @@ class QQGroupVerifyPlugin(Star):
         if platform != "aiocqhttp":
             return
 
-        # 新成员入群
         if raw.get("post_type") == "notice" and raw.get("notice_type") == "group_increase":
             uid = raw.get("user_id")
             gid = raw.get("group_id")
@@ -33,7 +32,6 @@ class QQGroupVerifyPlugin(Star):
 
             asyncio.create_task(self._timeout_kick(uid, gid))
 
-        # 群消息：验证处理
         elif raw.get("post_type") == "message" and raw.get("message_type") == "group":
             uid = event.get_sender_id()
             gid = raw.get("group_id")
