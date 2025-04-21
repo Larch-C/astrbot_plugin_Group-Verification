@@ -1,24 +1,69 @@
-from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
+from astrbot.api.event import filter, AstrMessageEvent, EventMessageType
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
+import asyncio
 
-@register("helloworld", "YourName", "一个简单的 Hello World 插件", "1.0.0")
-class MyPlugin(Star):
-    def __init__(self, context: Context):
+@register("qq_member_verify", "YourName", "QQ群成员验证插件", "1.0.0", "https://your.repo.url")
+class QQGroupVerifyPlugin(Star):
+    def __init__(self, context: Context, config):
         super().__init__(context)
+        self.context = context
+        self.config = config
+        self.pending = {}  # {user_id: group_id}
 
-    async def initialize(self):
-        """可选择实现异步的插件初始化方法，当实例化该插件类之后会自动调用该方法。"""
-    
-    # 注册指令的装饰器。指令名为 helloworld。注册成功后，发送 `/helloworld` 就会触发这个指令，并回复 `你好, {user_name}!`
-    @filter.command("helloworld")
-    async def helloworld(self, event: AstrMessageEvent):
-        """这是一个 hello world 指令""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
-        user_name = event.get_sender_name()
-        message_str = event.message_str # 用户发的纯文本消息字符串
-        message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
-        logger.info(message_chain)
-        yield event.plain_result(f"Hello, {user_name}, 你发了 {message_str}!") # 发送一条纯文本消息
+    @filter.event_message_type(EventMessageType.ALL)
+    async def handle_event(self, event: AstrMessageEvent):
+        raw = event.message_obj.raw_message
+        platform = event.get_platform_name()
 
-    async def terminate(self):
-        """可选择实现异步的插件销毁方法，当插件被卸载/停用时会调用。"""
+        if platform != "aiocqhttp":
+            return
+
+        # 新成员入群
+        if raw.get("post_type") == "notice" and raw.get("notice_type") == "group_increase":
+            uid = raw.get("user_id")
+            gid = raw.get("group_id")
+            self.pending[uid] = gid
+
+            await event.bot.api.call_action(
+                "send_group_msg",
+                group_id=gid,
+                message=f"[CQ:at,qq={uid}] 欢迎加入，请在 5 分钟内发送 “进行验证” 以完成验证，否则将被自动请出群聊"
+            )
+
+            asyncio.create_task(self._timeout_kick(uid, gid))
+
+        # 群消息：验证处理
+        elif raw.get("post_type") == "message" and raw.get("message_type") == "group":
+            uid = event.get_sender_id()
+            gid = raw.get("group_id")
+            text = event.message_str.strip()
+
+            if uid in self.pending and text == self.config["verification_keyword"]:
+                self.pending.pop(uid, None)
+                await event.plain_result(f"[CQ:at,qq={uid}] 验证成功，欢迎加入！")
+                event.stop_event()
+
+    async def _timeout_kick(self, uid: int, gid: int):
+        await asyncio.sleep(self.config["verification_timeout"])
+
+        if uid in self.pending:
+            await self.context.get_platform("aiocqhttp") \
+                .get_client().api.call_action(
+                    "send_group_msg",
+                    group_id=gid,
+                    message=f"[CQ:at,qq={uid}] 验证失败，你将于 {self.config['kick_delay']} 秒后自动请出群聊"
+                )
+
+            await asyncio.sleep(self.config["kick_delay"])
+
+            await self.context.get_platform("aiocqhttp") \
+                .get_client().api.call_action(
+                    "set_group_kick",
+                    group_id=gid,
+                    user_id=uid,
+                    reject_add_request=False
+                )
+
+            self.pending.pop(uid, None)
+            logger.info(f"[QQ Verify] 用户 {uid} 因验证失败被踢出群 {gid}")
