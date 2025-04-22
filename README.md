@@ -48,7 +48,7 @@ QQ群成员验证插件为AstrBot提供了强大的新成员管理功能，能�
 
 | 配置项 | 说明 | 默认值 |
 |:-------|:-----|:-------|
-| `verification_word` | 验证关键词 | `验证` |
+| `verification_word` | 验证关键词 | `进行验证` |
 | `verification_timeout` | 验证超时时间(秒) | `300` |
 | `kick_countdown` | 踢出倒计时(秒) | `60` |
 
