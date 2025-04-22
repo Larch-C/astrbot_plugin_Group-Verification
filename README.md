@@ -35,10 +35,10 @@ QQ群成员验证插件为AstrBot提供了强大的新成员管理功能，能�
 <summary>展开查看详细安装步骤</summary>
 
 1. 进入AstrBot的插件管理界面
-2. 搜索"astrbot_plugin_Group Verification"或直接上传插件文件
+2. 搜索"astrbot_plugin_Group Verification"自动配置
 3. 点击安装按钮完成插件安装
 4. 在插件配置页面进行相关设置
-5. 重启机器人使配置生效或者手动下载源代码自行复制到astrbot插件目录中
+5. 重启机器人使配置生效或者手动下载release的 Group-Verification.zip文件自行解压复制到astrbot插件目录中
 
 </details>
 
