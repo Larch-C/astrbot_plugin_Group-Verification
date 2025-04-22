@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.2-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Platform](https://img.shields.io/badge/platform-AstrBot-purple.svg)
 
@@ -111,6 +111,11 @@ QQ群成员验证插件为AstrBot提供了强大的新成员管理功能，能�
 </details>
 
 ## 📋 更新日志
+
+### v1.0.2 (2025-04-22)
+- ✍️ 修复了退群后无通知的错误
+- ✨ 修复了部分bug
+- 📝 完善了代码可读性
 
 ### v1.0.1 (2025-04-21)
 - 🐛 修复验证关键词匹配逻辑
