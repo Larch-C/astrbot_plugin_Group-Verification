@@ -2,7 +2,7 @@
   "verification_word": {
     "description": "验证关键词",
     "type": "string",
-    "default": "验证",
+    "default": "进行验证",
     "hint": "用户发送此关键词视为验证成功"
   },
   "verification_timeout": {
