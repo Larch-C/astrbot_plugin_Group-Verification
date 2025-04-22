@@ -11,7 +11,7 @@
     "default": 300,
     "hint": "在此时间内未验证则判定失败（默认 5 分钟）"
   },
-  "kick_countdown": {
+  "kick_delay": {
     "description": "踢出倒计时（秒）",
     "type": "int",
     "default": 60,
