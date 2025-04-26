@@ -11,7 +11,7 @@ class QQGroupVerifyPlugin(Star):
         self.config = config
         self.pending = {}  # {user_id: group_id}
 
-    @filter.event_message_type(filter.EventMessageType.ALL)
+    @filter.event_message_type(filter.EventMessageType.GROUP_MESSAGE)
     async def handle_event(self, event: AstrMessageEvent):
         raw = event.message_obj.raw_message
         platform = event.get_platform_name()
@@ -30,7 +30,7 @@ class QQGroupVerifyPlugin(Star):
             await event.bot.api.call_action(
                 "send_group_msg",
                 group_id=gid,
-                message=f'[CQ:at,qq={uid}] 欢迎加入，请在 5 分钟内 @我 并发送 "{self.config["verification_word"]}" 以完成验证，否则将被自动请出群聊'
+                message=f'[CQ:at,qq={uid}] 欢迎加入，请在 5 分钟内 @我 并发送 "{self.config.get("verification_word", "默认验证词")}" 以完成验证，否则将被自动请出群聊'
             )
 
             asyncio.create_task(self._timeout_kick(uid, gid))
@@ -48,7 +48,7 @@ class QQGroupVerifyPlugin(Star):
             uid_str = str(uid)
 
             is_in_pending = (uid_int in self.pending) or (uid_str in self.pending)
-            has_keyword = self.config["verification_word"] in text
+            has_keyword = self.config.get("verification_word", "默认验证词") in text
 
             if is_in_pending and at_me and has_keyword:
                 if uid_int is not None:
@@ -58,14 +58,14 @@ class QQGroupVerifyPlugin(Star):
                 await event.bot.api.call_action(
                     "send_group_msg",
                     group_id=gid,
-                    message=f"[CQ:at,qq={uid}] {self.config['welcome_message']}"
+                    message=f"[CQ:at,qq={uid}] {self.config.get('welcome_message', '欢迎信息')}"
                 )
 
                 logger.info(f"[QQ Verify] 用户 {uid} 在群 {gid} 验证成功")
                 event.stop_event()
 
     async def _timeout_kick(self, uid: int, gid: int):
-        await asyncio.sleep(self.config["verification_timeout"])
+        await asyncio.sleep(self.config.get("verification_timeout", 300))
 
         uid_int = int(uid)
         uid_str = str(uid)
@@ -86,10 +86,10 @@ class QQGroupVerifyPlugin(Star):
             await bot.api.call_action(
                 "send_group_msg",
                 group_id=gid,
-                message=self.config["failure_message"].format(countdown=self.config["kick_delay"])
+                message=self.config.get("failure_message", "验证失败，用户将被踢出群聊")
             )
 
-            await asyncio.sleep(self.config["kick_delay"])
+            await asyncio.sleep(self.config.get("kick_delay", 10))
 
             await bot.api.call_action(
                 "set_group_kick",
@@ -101,7 +101,7 @@ class QQGroupVerifyPlugin(Star):
             await bot.api.call_action(
                 "send_group_msg",
                 group_id=gid,
-                message=self.config["kick_message"].format(member_name=nickname)
+                message=self.config.get("kick_message", "{member_name} 因验证失败被踢出群聊").format(member_name=nickname)
             )
 
             self.pending.pop(uid_int, None)
