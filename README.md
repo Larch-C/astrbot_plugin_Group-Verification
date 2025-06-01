@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.3-blue.svg)  
+![Version](https://img.shields.io/badge/version-1.0.4-blue.svg)  
 ![License](https://img.shields.io/badge/license-MIT-green.svg)  
 ![Platform](https://img.shields.io/badge/platform-AstrBot-purple.svg)
 
@@ -109,8 +109,7 @@ QQ群成员验证插件为 AstrBot 提供了强大的新成员管理功能，能
 
 ## 📋 更新日志
 
-### v1.0.3 (2025-06-01)
-- ✅ 新增支持配置 `enabled_groups` 限定启用验证的群号
+### v1.0.4 (2025-06-01)
 -  ✍️ 修复退群后无通知的错误
 - 🔧 优化逻辑结构，统一用户 ID 和群号处理
 - 🧹 清理冗余任务与状态数据
