@@ -56,7 +56,6 @@ QQ群成员验证插件为 AstrBot 提供了强大的新成员管理功能，能
 | `failure_message` | string | 验证失败提示语，支持 `{countdown}` 变量 |
 | `kick_message` | string | 踢出消息模板，支持 `{member_name}` 变量 |
 | `join_prompt` | string | 新人提示语模板，支持 `{member_name}` `{timeout}` `{verification_word}` |
-| `enabled_groups` | list[int] | **可选**，指定启用验证的群号列表，留空则所有群聊均启用验证 |
 
 ### 支持的模板变量
 
@@ -102,15 +101,11 @@ QQ群成员验证插件为 AstrBot 提供了强大的新成员管理功能，能
 <p>请确保用户消息中包含验证词，并正确 @ 机器人。</p>
 </details>
 
-<details>
-<summary><b>只想在特定群启用验证怎么办？</b></summary>
-<p>请在配置中添加 `enabled_groups` 项，例如 `[123456789, 987654321]`。</p>
-</details>
 
 ## 📋 更新日志
 
 ### v1.1.1 (2025-06-19)
--  ✍️ 新增对成员退群的处理新增对成员（防止资源浪费）
+-  ✍️ 新增对成员退群的处理（防止资源浪费）
 - 🔧 新增对成员主动离开或被踢出群聊，系统会自动清理其验证状态并取消超时任务
 
 
